@@ -10,13 +10,14 @@ const io = new Server(server, {
     origin: ["http://localhost:5173"],
   },
 });
+//Used to store online user
+const userSocketMap = {};
 export function getReceiverSocketId(userId){
   return userSocketMap[userId];
 }
 
-//Used to store online user
 
-const userSocketMap = {};
+
 
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
@@ -34,7 +35,7 @@ io.on("connection", (socket) => {
 
     delete userSocketMap[userId];
 
-    io.emit("getOnlineUsers", Object.keys(userId));
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
 });
 
